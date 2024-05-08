@@ -1,27 +1,14 @@
-function Trie() {
-  this.root = {};
+function subarraySum(nums, k) {
+  const map = new Map();
+  map.set(0, 1);
+  let count = 0;
+  let sum = 0;
+  for (const num of nums) {
+    sum += num;
+    if (map.has(sum - k)) {
+      count += map.get(sum - k);
+    }
+    map.set(sum, (map.get(sum) || 0) + 1);
+  }
+  return count;
 }
-Trie.prototype.insert = function (word) {
-  let node = this.root;
-  for (const char of word) {
-    if (!node[char]) node[char] = {};
-    node = node[char];
-  }
-  node.isEnd = true;
-};
-Trie.prototype.search = function (word) {
-  let node = this.root;
-  for (const char of word) {
-    if (!node[char]) return false;
-    node = node[char];
-  }
-  return node.isEnd === true;
-};
-Trie.prototype.startsWith = function (prefix) {
-  let node = this.root;
-  for (const char of prefix) {
-    if (!node[char]) return false;
-    node = node[char];
-  }
-  return true;
-};
