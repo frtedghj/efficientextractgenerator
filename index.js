@@ -1,16 +1,13 @@
-function numDecodings(s) {
-  const dp = new Array(s.length + 1).fill(0);
-  dp[0] = 1;
-  dp[1] = s[0] === "0" ? 0 : 1;
-  for (let i = 2; i <= s.length; i++) {
-    const oneDigit = parseInt(s.substring(i - 1, i));
-    const twoDigits = parseInt(s.substring(i - 2, i));
-    if (oneDigit >= 1) {
-      dp[i] += dp[i - 1];
-    }
-    if (twoDigits >= 10 && twoDigits <= 26) {
-      dp[i] += dp[i - 2];
-    }
+function maxProduct(nums) {
+  if (nums.length === 0) return 0;
+  let maxSoFar = nums[0];
+  let minSoFar = nums[0];
+  let maxProduct = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    const temp = maxSoFar;
+    maxSoFar = Math.max(nums[i], nums[i] * maxSoFar, nums[i] * minSoFar);
+    minSoFar = Math.min(nums[i], nums[i] * temp, nums[i] * minSoFar);
+    maxProduct = Math.max(maxProduct, maxSoFar);
   }
-  return dp[s.length];
+  return maxProduct;
 }
